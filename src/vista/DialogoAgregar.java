@@ -27,6 +27,7 @@ public class DialogoAgregar extends JDialog {
 	private JTextField Tpventa;
 	private JTextField textField;
 	private JTextField txtAlertaDeStook;
+	private JButton Baceptar, Bcancelar;
 
 	/**
 	 * Launch the application.
@@ -187,34 +188,74 @@ public class DialogoAgregar extends JDialog {
 		gbc_textField.gridy = 7;
 		panelEditarProducto.add(textField, gbc_textField);
 		textField.setColumns(10);
-				
-				JLabel LalertaStook = new JLabel("Stook minimo de alerta");
-				GridBagConstraints gbc_LalertaStook = new GridBagConstraints();
-				gbc_LalertaStook.insets = new Insets(0, 0, 5, 5);
-				gbc_LalertaStook.gridx = 1;
-				gbc_LalertaStook.gridy = 8;
-				panelEditarProducto.add(LalertaStook, gbc_LalertaStook);
-				
-						txtAlertaDeStook = new JTextField();
-						txtAlertaDeStook.setForeground(Color.BLACK);
-						GridBagConstraints gbc_txtAlertaDeStook = new GridBagConstraints();
-						gbc_txtAlertaDeStook.insets = new Insets(0, 0, 5, 5);
-						gbc_txtAlertaDeStook.fill = GridBagConstraints.HORIZONTAL;
-						gbc_txtAlertaDeStook.gridx = 1;
-						gbc_txtAlertaDeStook.gridy = 9;
-						panelEditarProducto.add(txtAlertaDeStook, gbc_txtAlertaDeStook);
-						txtAlertaDeStook.setColumns(10);
+
+		JLabel LalertaStook = new JLabel("Stook minimo de alerta");
+		GridBagConstraints gbc_LalertaStook = new GridBagConstraints();
+		gbc_LalertaStook.insets = new Insets(0, 0, 5, 5);
+		gbc_LalertaStook.gridx = 1;
+		gbc_LalertaStook.gridy = 8;
+		panelEditarProducto.add(LalertaStook, gbc_LalertaStook);
+
+		txtAlertaDeStook = new JTextField();
+		txtAlertaDeStook.setForeground(Color.BLACK);
+		GridBagConstraints gbc_txtAlertaDeStook = new GridBagConstraints();
+		gbc_txtAlertaDeStook.insets = new Insets(0, 0, 5, 5);
+		gbc_txtAlertaDeStook.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtAlertaDeStook.gridx = 1;
+		gbc_txtAlertaDeStook.gridy = 9;
+		panelEditarProducto.add(txtAlertaDeStook, gbc_txtAlertaDeStook);
+		txtAlertaDeStook.setColumns(10);
 		JPanel paneBotones = new JPanel();
 		getContentPane().add(paneBotones, BorderLayout.SOUTH);
 		paneBotones.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		// panel botones
-		JButton Baceptar = new JButton("aceptar y guardar");
+		Baceptar = new JButton("aceptar y guardar");
 		paneBotones.add(Baceptar);
 
-		JButton Bcancelar = new JButton("Cancelar");
+		Bcancelar = new JButton("Cancelar");
 		paneBotones.add(Bcancelar);
 
+	}
+
+	public JTextField getTnombre() {
+		return Tnombre;
+	}
+
+	public void setTnombre(JTextField tnombre) {
+		Tnombre = tnombre;
+	}
+
+	public JTextField getTpcompra() {
+		return Tpcompra;
+	}
+
+	public void setTpcompra(JTextField tpcompra) {
+		Tpcompra = tpcompra;
+	}
+
+	public JTextField getTpventa() {
+		return Tpventa;
+	}
+
+	public void setTpventa(JTextField tpventa) {
+		Tpventa = tpventa;
+	}
+
+	public JTextField getTextField() {
+		return textField;
+	}
+
+	public void setTextField(JTextField textField) {
+		this.textField = textField;
+	}
+
+	public JTextField getTxtAlertaDeStook() {
+		return txtAlertaDeStook;
+	}
+
+	public void setTxtAlertaDeStook(JTextField txtAlertaDeStook) {
+		this.txtAlertaDeStook = txtAlertaDeStook;
 	}
 
 }
