@@ -5,6 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Modelo.Mproductos;
+import controlador.Cproductos;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
@@ -43,11 +47,14 @@ public class VistaPrincipal extends JFrame {
 
 		JTabbedPane Pestañas = new JTabbedPane(JTabbedPane.TOP);
 
+		Mproductos Mproductos = new Mproductos("init", null, 0, 0, 0, 0, null);
+		DialogoAgregar DAgregar = new DialogoAgregar();
 		PanelProductos Pproductos = new PanelProductos();
+
+		Cproductos Cproductos = new Cproductos(Mproductos, DAgregar, Pproductos);
 
 		Pestañas.addTab("Productos", Pproductos);
 		contentPane.add(Pestañas, BorderLayout.CENTER);
 
 	}
-
 }
