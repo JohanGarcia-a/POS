@@ -2,6 +2,7 @@ package vista;
 
 import java.awt.EventQueue;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -47,9 +48,12 @@ public class VistaPrincipal extends JFrame {
 
 		JTabbedPane Pestañas = new JTabbedPane(JTabbedPane.TOP);
 
-		Mproductos Mproductos = new Mproductos("init", null, 0, 0, 0, 0, null);
+		Mproductos Mproductos = new Mproductos("init", 0, null, null, 0, 0, 0, 0, null);
 		DialogoAgregar DAgregar = new DialogoAgregar();
 		PanelProductos Pproductos = new PanelProductos();
+
+		DAgregar.getCcatgoria().setModel(Mproductos.getModeloCategoria());
+		Pproductos.getCcatergoria().setModel(Mproductos.getModeloCategoria());
 
 		Cproductos Cproductos = new Cproductos(Mproductos, DAgregar, Pproductos);
 
