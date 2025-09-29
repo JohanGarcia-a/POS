@@ -39,7 +39,7 @@ public class VistaPrincipal extends JFrame {
 	public VistaPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-		setPreferredSize(new Dimension(800, 700));
+		setPreferredSize(new Dimension(900, 768));
 		pack();
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -54,6 +54,9 @@ public class VistaPrincipal extends JFrame {
 
 		DAgregar.getCcatgoria().setModel(Mproductos.getModeloCategoria());
 		Pproductos.getCcatergoria().setModel(Mproductos.getModeloCategoria());
+
+		DAgregar.getCproveedor().setModel(Mproductos.getProvee());
+		Pproductos.getCproveedor().setModel(Mproductos.getProvee());
 
 		Cproductos Cproductos = new Cproductos(Mproductos, DAgregar, Pproductos);
 

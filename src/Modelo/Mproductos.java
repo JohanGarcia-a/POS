@@ -1,24 +1,89 @@
 package Modelo;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
 public class Mproductos {
 	private String Nombre;
-	private DefaultComboBoxModel<String> cat;
+	private DefaultComboBoxModel<String> modeloCategoria;
 	private double precioCompra, PrecioVenta;
-	private int Stook, AlertaStook;
-	private DefaultComboBoxModel<String> provee;
+	private int Stook, AlertaStook, id;
+	private DefaultComboBoxModel<String> Modelopprovee;
+	private DefaultTableModel modeloTabla;
 
-	public Mproductos(String nombre, DefaultComboBoxModel<String> cat, double precioCompra, double precioVenta,
-			int stook, int alertaStook, DefaultComboBoxModel<String> provee) {
+	public Mproductos(String imagen, int id, DefaultComboBoxModel<String> modeloCategoria, String nombre,
+			double precioCompra, double precioVenta, int stook, int alertaStook,
+			DefaultComboBoxModel<String> Modelopprovee) {
 		super();
 		Nombre = nombre;
-		this.cat = cat;
 		this.precioCompra = precioCompra;
 		PrecioVenta = precioVenta;
 		Stook = stook;
 		AlertaStook = alertaStook;
-		this.provee = provee;
+		this.id = id;
+
+		modeloTabla = new DefaultTableModel();
+
+		modeloTabla.addColumn("Imagen");
+		modeloTabla.addColumn("ID");
+		modeloTabla.addColumn("Categoria");
+		modeloTabla.addColumn("Nombre");
+		modeloTabla.addColumn("Precio Venta");
+		modeloTabla.addColumn("Precio Compra");
+		modeloTabla.addColumn("Stook");
+
+		if (Modelopprovee == null) {
+			this.Modelopprovee = new DefaultComboBoxModel<>();
+			this.Modelopprovee.addElement("Default");
+
+		} else {
+			this.Modelopprovee = Modelopprovee;
+		}
+
+		if (modeloCategoria == null) {
+			this.modeloCategoria = new DefaultComboBoxModel<>();
+			this.modeloCategoria.addElement("Todos");
+			this.modeloCategoria.addElement("Sin Categoria");
+		} else {
+			this.modeloCategoria = modeloCategoria;
+		}
+	}
+
+	public DefaultTableModel getModeloTabla() {
+		return modeloTabla;
+	}
+
+	public void Agregar(String imagen, int id, String categoria, String nombre, double precioV, double precioC,
+			int stook) {
+		modeloTabla.addRow(new Object[] { imagen, id, categoria, nombre, precioV, precioC, stook
+
+		});
+	}
+
+	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setModeloCategoria(DefaultComboBoxModel<String> modeloCategoria) {
+		this.modeloCategoria = modeloCategoria;
+	}
+
+	public void setModeloTabla(DefaultTableModel modeloTabla) {
+		this.modeloTabla = modeloTabla;
+	}
+
+	public void AgregarCategoria(String cat) {
+		modeloCategoria.addElement(cat);
+	}
+
+	public void AgregarProveedor(String provee) {
+		Modelopprovee.addElement(provee);
 	}
 
 	public String getNombre() {
@@ -29,12 +94,12 @@ public class Mproductos {
 		Nombre = nombre;
 	}
 
-	public DefaultComboBoxModel<String> getCat() {
-		return cat;
+	public DefaultComboBoxModel<String> getModeloCategoria() {
+		return this.modeloCategoria;
 	}
 
-	public void setCat(DefaultComboBoxModel<String> cat) {
-		this.cat = cat;
+	public void setCat(DefaultComboBoxModel<String> modeloCategoria) {
+		this.modeloCategoria = modeloCategoria;
 	}
 
 	public double getPrecioCompra() {
@@ -70,11 +135,11 @@ public class Mproductos {
 	}
 
 	public DefaultComboBoxModel<String> getProvee() {
-		return provee;
+		return Modelopprovee;
 	}
 
 	public void setProvee(DefaultComboBoxModel<String> provee) {
-		this.provee = provee;
+		this.Modelopprovee = provee;
 	}
 
 }

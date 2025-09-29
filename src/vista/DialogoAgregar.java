@@ -16,6 +16,9 @@ import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
+
+import Modelo.Mproductos;
+
 import java.awt.Color;
 
 public class DialogoAgregar extends JDialog {
@@ -25,9 +28,11 @@ public class DialogoAgregar extends JDialog {
 	private JTextField Tnombre;
 	private JTextField Tpcompra;
 	private JTextField Tpventa;
-	private JTextField textField;
+	private JTextField Tstook;
 	private JTextField txtAlertaDeStook;
 	private JButton Baceptar, Bcancelar;
+	private JComboBox Ccatgoria, Cproveedor;
+	private JTextField Tid;
 
 	/**
 	 * Launch the application.
@@ -57,7 +62,7 @@ public class DialogoAgregar extends JDialog {
 		getContentPane().add(panelInfoBasica, BorderLayout.NORTH);
 		GridBagLayout gbl_panelInfoBasica = new GridBagLayout();
 		gbl_panelInfoBasica.columnWidths = new int[] { 0, 0, 232, 0 };
-		gbl_panelInfoBasica.rowHeights = new int[] { 0, 0, 0, 0, 0 };
+		gbl_panelInfoBasica.rowHeights = new int[] { 0, 0, 0, 0 };
 		gbl_panelInfoBasica.columnWeights = new double[] { 0.0, 0.0, 1.0, 1.0 };
 		gbl_panelInfoBasica.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0 };
 		panelInfoBasica.setLayout(gbl_panelInfoBasica);
@@ -87,13 +92,15 @@ public class DialogoAgregar extends JDialog {
 		gbc_Lcategoria.gridy = 2;
 		panelInfoBasica.add(Lcategoria, gbc_Lcategoria);
 
-		JComboBox comboBox_1 = new JComboBox();
-		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
-		gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox_1.gridx = 2;
-		gbc_comboBox_1.gridy = 2;
-		panelInfoBasica.add(comboBox_1, gbc_comboBox_1);
+		Ccatgoria = new JComboBox();
+		Ccatgoria.addItem("Sin categoria");
+		Ccatgoria.setEditable(true);
+		GridBagConstraints gbc_Ccatgoria = new GridBagConstraints();
+		gbc_Ccatgoria.insets = new Insets(0, 0, 5, 5);
+		gbc_Ccatgoria.fill = GridBagConstraints.HORIZONTAL;
+		gbc_Ccatgoria.gridx = 2;
+		gbc_Ccatgoria.gridy = 2;
+		panelInfoBasica.add(Ccatgoria, gbc_Ccatgoria);
 		// --proveedor y caracteristicas
 
 		JPanel panelProveedor = new JPanel();
@@ -121,16 +128,33 @@ public class DialogoAgregar extends JDialog {
 		panelProveedor.add(panelEditarProducto, BorderLayout.EAST);
 		GridBagLayout gbl_panelEditarProducto = new GridBagLayout();
 		gbl_panelEditarProducto.columnWidths = new int[] { 43, 0, 0 };
-		gbl_panelEditarProducto.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_panelEditarProducto.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_panelEditarProducto.columnWeights = new double[] { 0.0, 1.0, 1.0 };
-		gbl_panelEditarProducto.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+		gbl_panelEditarProducto.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				0.0, 0.0 };
 		panelEditarProducto.setLayout(gbl_panelEditarProducto);
+
+		JLabel Lid = new JLabel("ID");
+		GridBagConstraints gbc_Lid = new GridBagConstraints();
+		gbc_Lid.insets = new Insets(0, 0, 5, 5);
+		gbc_Lid.gridx = 1;
+		gbc_Lid.gridy = 0;
+		panelEditarProducto.add(Lid, gbc_Lid);
+
+		Tid = new JTextField();
+		GridBagConstraints gbc_tid = new GridBagConstraints();
+		gbc_tid.insets = new Insets(0, 0, 5, 5);
+		gbc_tid.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tid.gridx = 1;
+		gbc_tid.gridy = 1;
+		panelEditarProducto.add(Tid, gbc_tid);
+		Tid.setColumns(10);
 
 		JLabel LprecioCompra = new JLabel("Precio Compra");
 		GridBagConstraints gbc_LprecioCompra = new GridBagConstraints();
 		gbc_LprecioCompra.insets = new Insets(0, 0, 5, 5);
 		gbc_LprecioCompra.gridx = 1;
-		gbc_LprecioCompra.gridy = 0;
+		gbc_LprecioCompra.gridy = 2;
 		panelEditarProducto.add(LprecioCompra, gbc_LprecioCompra);
 
 		Tpcompra = new JTextField();
@@ -138,7 +162,7 @@ public class DialogoAgregar extends JDialog {
 		gbc_tpcompra.insets = new Insets(0, 0, 5, 5);
 		gbc_tpcompra.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tpcompra.gridx = 1;
-		gbc_tpcompra.gridy = 1;
+		gbc_tpcompra.gridy = 3;
 		panelEditarProducto.add(Tpcompra, gbc_tpcompra);
 		Tpcompra.setColumns(10);
 
@@ -146,7 +170,7 @@ public class DialogoAgregar extends JDialog {
 		GridBagConstraints gbc_LprecioVenta = new GridBagConstraints();
 		gbc_LprecioVenta.insets = new Insets(0, 0, 5, 5);
 		gbc_LprecioVenta.gridx = 1;
-		gbc_LprecioVenta.gridy = 2;
+		gbc_LprecioVenta.gridy = 4;
 		panelEditarProducto.add(LprecioVenta, gbc_LprecioVenta);
 
 		Tpventa = new JTextField();
@@ -155,45 +179,46 @@ public class DialogoAgregar extends JDialog {
 		gbc_tpventa.insets = new Insets(0, 0, 5, 5);
 		gbc_tpventa.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tpventa.gridx = 1;
-		gbc_tpventa.gridy = 3;
+		gbc_tpventa.gridy = 5;
 		panelEditarProducto.add(Tpventa, gbc_tpventa);
 
 		JLabel Lproveedor = new JLabel("Proveedor");
 		GridBagConstraints gbc_Lproveedor = new GridBagConstraints();
 		gbc_Lproveedor.insets = new Insets(0, 0, 5, 5);
 		gbc_Lproveedor.gridx = 1;
-		gbc_Lproveedor.gridy = 4;
+		gbc_Lproveedor.gridy = 6;
 		panelEditarProducto.add(Lproveedor, gbc_Lproveedor);
 
-		JComboBox Ccategoria = new JComboBox();
-		GridBagConstraints gbc_Ccategoria = new GridBagConstraints();
-		gbc_Ccategoria.insets = new Insets(0, 0, 5, 5);
-		gbc_Ccategoria.fill = GridBagConstraints.HORIZONTAL;
-		gbc_Ccategoria.gridx = 1;
-		gbc_Ccategoria.gridy = 5;
-		panelEditarProducto.add(Ccategoria, gbc_Ccategoria);
+		Cproveedor = new JComboBox();
+		Cproveedor.setEditable(true);
+		GridBagConstraints gbc_Cproveedor = new GridBagConstraints();
+		gbc_Cproveedor.insets = new Insets(0, 0, 5, 5);
+		gbc_Cproveedor.fill = GridBagConstraints.HORIZONTAL;
+		gbc_Cproveedor.gridx = 1;
+		gbc_Cproveedor.gridy = 7;
+		panelEditarProducto.add(Cproveedor, gbc_Cproveedor);
 
 		JLabel Lstook = new JLabel("Stook");
 		GridBagConstraints gbc_Lstook = new GridBagConstraints();
 		gbc_Lstook.insets = new Insets(0, 0, 5, 5);
 		gbc_Lstook.gridx = 1;
-		gbc_Lstook.gridy = 6;
+		gbc_Lstook.gridy = 8;
 		panelEditarProducto.add(Lstook, gbc_Lstook);
 
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 7;
-		panelEditarProducto.add(textField, gbc_textField);
-		textField.setColumns(10);
+		Tstook = new JTextField();
+		GridBagConstraints gbc_tstook = new GridBagConstraints();
+		gbc_tstook.insets = new Insets(0, 0, 5, 5);
+		gbc_tstook.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tstook.gridx = 1;
+		gbc_tstook.gridy = 9;
+		panelEditarProducto.add(Tstook, gbc_tstook);
+		Tstook.setColumns(10);
 
 		JLabel LalertaStook = new JLabel("Stook minimo de alerta");
 		GridBagConstraints gbc_LalertaStook = new GridBagConstraints();
 		gbc_LalertaStook.insets = new Insets(0, 0, 5, 5);
 		gbc_LalertaStook.gridx = 1;
-		gbc_LalertaStook.gridy = 8;
+		gbc_LalertaStook.gridy = 10;
 		panelEditarProducto.add(LalertaStook, gbc_LalertaStook);
 
 		txtAlertaDeStook = new JTextField();
@@ -202,7 +227,7 @@ public class DialogoAgregar extends JDialog {
 		gbc_txtAlertaDeStook.insets = new Insets(0, 0, 5, 5);
 		gbc_txtAlertaDeStook.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtAlertaDeStook.gridx = 1;
-		gbc_txtAlertaDeStook.gridy = 9;
+		gbc_txtAlertaDeStook.gridy = 11;
 		panelEditarProducto.add(txtAlertaDeStook, gbc_txtAlertaDeStook);
 		txtAlertaDeStook.setColumns(10);
 		JPanel paneBotones = new JPanel();
@@ -218,44 +243,84 @@ public class DialogoAgregar extends JDialog {
 
 	}
 
+	public JTextField getTid() {
+		return Tid;
+	}
+
+	public void setTid(String tid) {
+		Tid.setText(tid);
+	}
+
 	public JTextField getTnombre() {
 		return Tnombre;
 	}
 
-	public void setTnombre(JTextField tnombre) {
-		Tnombre = tnombre;
+	public void setTnombre(String tnombre) {
+		Tnombre.setText(tnombre);
 	}
 
 	public JTextField getTpcompra() {
 		return Tpcompra;
 	}
 
-	public void setTpcompra(JTextField tpcompra) {
-		Tpcompra = tpcompra;
+	public void setTpcompra(String tpcompra) {
+		Tpcompra.setText(tpcompra);
 	}
 
 	public JTextField getTpventa() {
 		return Tpventa;
 	}
 
-	public void setTpventa(JTextField tpventa) {
-		Tpventa = tpventa;
+	public void setTpventa(String tpventa) {
+		Tpventa.setText(tpventa);
 	}
 
-	public JTextField getTextField() {
-		return textField;
+	public JTextField getTstook() {
+		return Tstook;
 	}
 
-	public void setTextField(JTextField textField) {
-		this.textField = textField;
+	public void setTstook(String tstook) {
+		Tstook.setText(tstook);
 	}
 
 	public JTextField getTxtAlertaDeStook() {
 		return txtAlertaDeStook;
 	}
 
-	public void setTxtAlertaDeStook(JTextField txtAlertaDeStook) {
-		this.txtAlertaDeStook = txtAlertaDeStook;
+	public void setTxtAlertaDeStook(String txtAlertaDeStook) {
+	this.txtAlertaDeStook.setText(txtAlertaDeStook);
+	}
+
+	public JButton getBaceptar() {
+		return Baceptar;
+	}
+
+	public void setBaceptar(JButton baceptar) {
+		Baceptar = baceptar;
+	}
+
+	public JButton getBcancelar() {
+		return Bcancelar;
+	}
+
+	public void setBcancelar(JButton bcancelar) {
+		Bcancelar = bcancelar;
+	}
+
+	public JComboBox getCcatgoria() {
+		return Ccatgoria;
+	}
+
+	public void setCcatgoria(JComboBox ccatgoria) {
+		Ccatgoria = ccatgoria;
+	}
+
+	public JComboBox getCproveedor() {
+		return Cproveedor;
+	}
+
+	public void setCproveedor(JComboBox cproveedor) {
+		Cproveedor = cproveedor;
 	}
 
 }

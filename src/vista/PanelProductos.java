@@ -7,16 +7,13 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTextField;
 import java.awt.FlowLayout;
-import javax.swing.JList;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
-import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -31,6 +28,10 @@ public class PanelProductos extends JPanel {
 	private JButton Beditar;
 	private JButton Beliminar;
 	private JButton BactivarDesactivar;
+	private JTable tablaInvenario;
+	private JLabel Lcategoria;
+	private JLabel LnivelStook;
+	private JLabel Lproveedor;
 
 	/**
 	 * Create the panel.
@@ -39,52 +40,88 @@ public class PanelProductos extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 
 		JPanel panel = new JPanel();
+
 		add(panel, BorderLayout.NORTH);
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[] { 72, 117, 30, 112, 130, 117, 0 };
+		gbl_panel.rowHeights = new int[] { 0, 23, 0 };
+		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+		gbl_panel.rowWeights = new double[] { 0.0, 0.0 };
+		panel.setLayout(gbl_panel);
+
+		Lcategoria = new JLabel("Categoria");
+		GridBagConstraints gbc_Lcategoria = new GridBagConstraints();
+		gbc_Lcategoria.insets = new Insets(0, 0, 5, 5);
+		gbc_Lcategoria.gridx = 2;
+		gbc_Lcategoria.gridy = 0;
+		panel.add(Lcategoria, gbc_Lcategoria);
+
+		Lproveedor = new JLabel("Proveedor");
+		GridBagConstraints gbc_lproveedor = new GridBagConstraints();
+		gbc_lproveedor.insets = new Insets(0, 0, 5, 5);
+		gbc_lproveedor.gridx = 3;
+		gbc_lproveedor.gridy = 0;
+		panel.add(Lproveedor, gbc_lproveedor);
+
+		LnivelStook = new JLabel("Nivel de stook");
+		GridBagConstraints gbc_lnivelStook = new GridBagConstraints();
+		gbc_lnivelStook.insets = new Insets(0, 0, 5, 5);
+		gbc_lnivelStook.gridx = 4;
+		gbc_lnivelStook.gridy = 0;
+		panel.add(LnivelStook, gbc_lnivelStook);
 
 		Tbuscar = new JTextField();
 		Tbuscar.setForeground(UIManager.getColor("Button.shadow"));
 
 		Tbuscar.setText("Buscar por nombre o codigo");
-		panel.add(Tbuscar);
+		GridBagConstraints gbc_tbuscar = new GridBagConstraints();
+		gbc_tbuscar.anchor = GridBagConstraints.WEST;
+		gbc_tbuscar.insets = new Insets(0, 0, 5, 5);
+		gbc_tbuscar.gridx = 1;
+		gbc_tbuscar.gridy = 1;
+		panel.add(Tbuscar, gbc_tbuscar);
 		Tbuscar.setColumns(15);
 
 		Ccatergoria = new JComboBox();
-		Ccatergoria.addItem("Categoria: Todos");
-		panel.add(Ccatergoria);
+		GridBagConstraints gbc_ccatergoria = new GridBagConstraints();
+		gbc_ccatergoria.anchor = GridBagConstraints.NORTHWEST;
+		gbc_ccatergoria.insets = new Insets(0, 0, 5, 5);
+		gbc_ccatergoria.gridx = 2;
+		gbc_ccatergoria.gridy = 1;
+		panel.add(Ccatergoria, gbc_ccatergoria);
 
 		Cproveedor = new JComboBox();
 		Cproveedor.addItem("Proveedor: Todos");
-		panel.add(Cproveedor);
+		GridBagConstraints gbc_cproveedor = new GridBagConstraints();
+		gbc_cproveedor.anchor = GridBagConstraints.WEST;
+		gbc_cproveedor.insets = new Insets(0, 0, 5, 5);
+		gbc_cproveedor.gridx = 3;
+		gbc_cproveedor.gridy = 1;
+		panel.add(Cproveedor, gbc_cproveedor);
 
 		Cstook = new JComboBox();
 		Cstook.addItem("Nivel de Stook: Todos");
-		panel.add(Cstook);
+		GridBagConstraints gbc_cstook = new GridBagConstraints();
+		gbc_cstook.anchor = GridBagConstraints.WEST;
+		gbc_cstook.insets = new Insets(0, 0, 5, 5);
+		gbc_cstook.gridx = 4;
+		gbc_cstook.gridy = 1;
+		panel.add(Cstook, gbc_cstook);
 
 		Bagregar = new JButton("Agregar producto");
-		Bagregar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
 
-				DialogoAgregar dialogo = new DialogoAgregar();
-				dialogo.setVisible(true);
-			}
-		});
-		panel.add(Bagregar);
+		GridBagConstraints gbc_bagregar = new GridBagConstraints();
+		gbc_bagregar.insets = new Insets(0, 0, 5, 5);
+		gbc_bagregar.anchor = GridBagConstraints.NORTHWEST;
+		gbc_bagregar.gridx = 5;
+		gbc_bagregar.gridy = 1;
+		panel.add(Bagregar, gbc_bagregar);
 
-		DefaultTableModel modeloTabla = new DefaultTableModel();
-		modeloTabla.addColumn("Imagen");
-		modeloTabla.addColumn("Categoria");
-		modeloTabla.addColumn("Nombre");
-		modeloTabla.addColumn("Precio Venta");
-		modeloTabla.addColumn("Precio Compra");
-		modeloTabla.addColumn("Stook");
+		tablaInvenario = new JTable();
 
-		JTable tablaInvenario = new JTable(modeloTabla);
-
-		modeloTabla.addRow(new Object[] { 1, 1, 1, 1, 1, 1 });
-		tablaInvenario.setVisible(true);
 		Panelinventario = new JScrollPane(tablaInvenario);
 		add(Panelinventario, BorderLayout.CENTER);
+		tablaInvenario.setVisible(true);
 
 		panelAcciones = new JPanel();
 		add(panelAcciones, BorderLayout.SOUTH);
@@ -186,6 +223,14 @@ public class PanelProductos extends JPanel {
 
 	public void setBactivarDesactivar(JButton bactivarDesactivar) {
 		BactivarDesactivar = bactivarDesactivar;
+	}
+
+	public JTable getTablaInvenario() {
+		return tablaInvenario;
+	}
+
+	public void setTablaInvenario(JTable tablaInvenario) {
+		this.tablaInvenario = tablaInvenario;
 	}
 
 }
