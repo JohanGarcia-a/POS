@@ -7,7 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Modelo.Categoria;
 import Modelo.Mproductos;
+import Modelo.Proveedor;
+import Modelo.TablaProductos;
 import controlador.Cproductos;
 
 import java.awt.BorderLayout;
@@ -48,18 +51,18 @@ public class VistaPrincipal extends JFrame {
 
 		JTabbedPane Pestañas = new JTabbedPane(JTabbedPane.TOP);
 
-		Mproductos Mproductos = new Mproductos("init", 0, null, null, 0, 0, 0, 0, null);
+		// 1. Crear las Vistas y Modelos necesarios
+		TablaProductos modeloTabla = new TablaProductos(); // <-- NECESARIO
 		DialogoAgregar DAgregar = new DialogoAgregar();
 		PanelProductos Pproductos = new PanelProductos();
 
-		DAgregar.getCcatgoria().setModel(Mproductos.getModeloCategoria());
-		Pproductos.getCcatergoria().setModel(Mproductos.getModeloCategoria());
+		// 2. CREAR Y CONECTAR EL CONTROLADOR
+		Cproductos controlador = new Cproductos(modeloTabla, DAgregar, Pproductos);
 
-		DAgregar.getCproveedor().setModel(Mproductos.getProvee());
-		Pproductos.getCproveedor().setModel(Mproductos.getProvee());
+		// 3. Conectar el JTable de la vista al modelo de la tabla
+		Pproductos.getTablaInvenario().setModel(modeloTabla.getModelo());
 
-		Cproductos Cproductos = new Cproductos(Mproductos, DAgregar, Pproductos);
-
+		// 4. Agregar vistas a la ventana
 		Pestañas.addTab("Productos", Pproductos);
 		contentPane.add(Pestañas, BorderLayout.CENTER);
 

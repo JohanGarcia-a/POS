@@ -17,7 +17,9 @@ import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
 
+import Modelo.Categoria;
 import Modelo.Mproductos;
+import Modelo.Proveedor;
 
 import java.awt.Color;
 
@@ -31,25 +33,10 @@ public class DialogoAgregar extends JDialog {
 	private JTextField Tstook;
 	private JTextField txtAlertaDeStook;
 	private JButton Baceptar, Bcancelar;
-	private JComboBox Ccatgoria, Cproveedor;
+	private JComboBox<Categoria> Ccatgoria;
+	private JComboBox<Proveedor> Cproveedor;
 	private JTextField Tid;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			DialogoAgregar dialog = new DialogoAgregar();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Create the dialog.
-	 */
 	public DialogoAgregar() {
 		setResizable(false);
 		setBounds(100, 100, 538, 395);
@@ -92,8 +79,7 @@ public class DialogoAgregar extends JDialog {
 		gbc_Lcategoria.gridy = 2;
 		panelInfoBasica.add(Lcategoria, gbc_Lcategoria);
 
-		Ccatgoria = new JComboBox();
-		Ccatgoria.addItem("Sin categoria");
+		Ccatgoria = new JComboBox<Categoria>();
 		Ccatgoria.setEditable(true);
 		GridBagConstraints gbc_Ccatgoria = new GridBagConstraints();
 		gbc_Ccatgoria.insets = new Insets(0, 0, 5, 5);
@@ -189,7 +175,7 @@ public class DialogoAgregar extends JDialog {
 		gbc_Lproveedor.gridy = 6;
 		panelEditarProducto.add(Lproveedor, gbc_Lproveedor);
 
-		Cproveedor = new JComboBox();
+		Cproveedor = new JComboBox<Proveedor>();
 		Cproveedor.setEditable(true);
 		GridBagConstraints gbc_Cproveedor = new GridBagConstraints();
 		gbc_Cproveedor.insets = new Insets(0, 0, 5, 5);
@@ -288,7 +274,7 @@ public class DialogoAgregar extends JDialog {
 	}
 
 	public void setTxtAlertaDeStook(String txtAlertaDeStook) {
-	this.txtAlertaDeStook.setText(txtAlertaDeStook);
+		this.txtAlertaDeStook.setText(txtAlertaDeStook);
 	}
 
 	public JButton getBaceptar() {

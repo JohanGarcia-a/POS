@@ -1,66 +1,86 @@
 package Modelo;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Mproductos {
-	private String Nombre;
-	private DefaultComboBoxModel<String> modeloCategoria;
-	private double precioCompra, PrecioVenta;
-	private int Stook, AlertaStook, id;
-	private DefaultComboBoxModel<String> Modelopprovee;
-	private DefaultTableModel modeloTabla;
+	private int id;
+	private String nombre;
+	private List<Categoria> categoria;
+	private List<Proveedor> proveedor;
+	private double precioCompra;
+	private double precioVenta;
+	private int stock;
+	private int alertaStock;
 
-	public Mproductos(String imagen, int id, DefaultComboBoxModel<String> modeloCategoria, String nombre,
-			double precioCompra, double precioVenta, int stook, int alertaStook,
-			DefaultComboBoxModel<String> Modelopprovee) {
+	private static List<Categoria> todasCategorias = new ArrayList<>();
+	private static List<Proveedor> todosProveedores = new ArrayList<>();
+
+	static {
+		if (todasCategorias.isEmpty()) {
+			todasCategorias.add(new Categoria(1, "Electrónica"));
+			todasCategorias.add(new Categoria(2, "Ropa"));
+		}
+		if (todosProveedores.isEmpty()) {
+			todosProveedores.add(new Proveedor(101, "Proveedor A"));
+			todosProveedores.add(new Proveedor(102, "Proveedor B"));
+		}
+	}
+
+	public Mproductos() {
 		super();
-		Nombre = nombre;
-		this.precioCompra = precioCompra;
-		PrecioVenta = precioVenta;
-		Stook = stook;
-		AlertaStook = alertaStook;
+		this.categoria = new ArrayList<>();
+		this.proveedor = new ArrayList<>();
+	}
+
+	public Mproductos(int id, String nombre, List<Categoria> categoria, List<Proveedor> proveedor, double precioCompra,
+			double precioVenta, int stock, int alertaStock) {
 		this.id = id;
+		this.nombre = nombre;
+		this.categoria = categoria;
+		this.proveedor = proveedor;
+		this.precioCompra = precioCompra;
+		this.precioVenta = precioVenta;
+		this.stock = stock;
+		this.alertaStock = alertaStock;
+	}
 
-		modeloTabla = new DefaultTableModel();
+	/**
+	 * Obtiene la lista de Categoría asignada específicamente a esta instancia de
+	 * producto.
+	 */
+	public List<Categoria> getCategoriaDeProducto() {
+		return this.categoria;
+	}
 
-		modeloTabla.addColumn("Imagen");
-		modeloTabla.addColumn("ID");
-		modeloTabla.addColumn("Categoria");
-		modeloTabla.addColumn("Nombre");
-		modeloTabla.addColumn("Precio Venta");
-		modeloTabla.addColumn("Precio Compra");
-		modeloTabla.addColumn("Stook");
+	/**
+	 * Obtiene la lista de Proveedor asignada específicamente a esta instancia de
+	 * producto.
+	 */
+	public List<Proveedor> getProveedorDeProducto() {
+		return this.proveedor;
+	}
 
-		if (Modelopprovee == null) {
-			this.Modelopprovee = new DefaultComboBoxModel<>();
-			this.Modelopprovee.addElement("Default");
+	public List<Categoria> getCategoria() {
+		return todasCategorias;
+	}
 
-		} else {
-			this.Modelopprovee = Modelopprovee;
+	public List<Proveedor> getProveedor() {
+		return todosProveedores;
+	}
+
+	public void agregarCategoria(Categoria cat) {
+		if (!todasCategorias.contains(cat)) {
+			todasCategorias.add(cat);
 		}
+	}
 
-		if (modeloCategoria == null) {
-			this.modeloCategoria = new DefaultComboBoxModel<>();
-			this.modeloCategoria.addElement("Todos");
-			this.modeloCategoria.addElement("Sin Categoria");
-		} else {
-			this.modeloCategoria = modeloCategoria;
+	public void agregarProveedor(Proveedor prov) {
+
+		if (!todosProveedores.contains(prov)) {
+			todosProveedores.add(prov);
 		}
 	}
-
-	public DefaultTableModel getModeloTabla() {
-		return modeloTabla;
-	}
-
-	public void Agregar(String imagen, int id, String categoria, String nombre, double precioV, double precioC,
-			int stook) {
-		modeloTabla.addRow(new Object[] { imagen, id, categoria, nombre, precioV, precioC, stook
-
-		});
-	}
-
-	
 
 	public int getId() {
 		return id;
@@ -70,36 +90,20 @@ public class Mproductos {
 		this.id = id;
 	}
 
-	public void setModeloCategoria(DefaultComboBoxModel<String> modeloCategoria) {
-		this.modeloCategoria = modeloCategoria;
-	}
-
-	public void setModeloTabla(DefaultTableModel modeloTabla) {
-		this.modeloTabla = modeloTabla;
-	}
-
-	public void AgregarCategoria(String cat) {
-		modeloCategoria.addElement(cat);
-	}
-
-	public void AgregarProveedor(String provee) {
-		Modelopprovee.addElement(provee);
-	}
-
 	public String getNombre() {
-		return Nombre;
+		return nombre;
 	}
 
 	public void setNombre(String nombre) {
-		Nombre = nombre;
+		this.nombre = nombre;
 	}
 
-	public DefaultComboBoxModel<String> getModeloCategoria() {
-		return this.modeloCategoria;
+	public void setCategoria(List<Categoria> categoria) {
+		this.categoria = categoria;
 	}
 
-	public void setCat(DefaultComboBoxModel<String> modeloCategoria) {
-		this.modeloCategoria = modeloCategoria;
+	public void setProveedor(List<Proveedor> proveedor) {
+		this.proveedor = proveedor;
 	}
 
 	public double getPrecioCompra() {
@@ -111,35 +115,26 @@ public class Mproductos {
 	}
 
 	public double getPrecioVenta() {
-		return PrecioVenta;
+		return precioVenta;
 	}
 
 	public void setPrecioVenta(double precioVenta) {
-		PrecioVenta = precioVenta;
+		this.precioVenta = precioVenta;
 	}
 
-	public int getStook() {
-		return Stook;
+	public int getStock() {
+		return stock;
 	}
 
-	public void setStook(int stook) {
-		Stook = stook;
+	public void setStock(int stock) {
+		this.stock = stock;
 	}
 
-	public int getAlertaStook() {
-		return AlertaStook;
+	public int getAlertaStock() {
+		return alertaStock;
 	}
 
-	public void setAlertaStook(int alertaStook) {
-		AlertaStook = alertaStook;
+	public void setAlertaStock(int alertaStock) {
+		this.alertaStock = alertaStock;
 	}
-
-	public DefaultComboBoxModel<String> getProvee() {
-		return Modelopprovee;
-	}
-
-	public void setProvee(DefaultComboBoxModel<String> provee) {
-		this.Modelopprovee = provee;
-	}
-
 }

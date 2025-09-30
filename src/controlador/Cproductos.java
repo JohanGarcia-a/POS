@@ -2,34 +2,50 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.DefaultComboBoxModel;
-
+import java.util.List;
+import Modelo.Categoria;
+import Modelo.ModeloCombobox;
 import Modelo.Mproductos;
+import Modelo.Proveedor;
+import Modelo.TablaProductos;
 import vista.DialogoAgregar;
 import vista.PanelProductos;
 
 public class Cproductos implements ActionListener {
 
-	Mproductos modelo;
+	Mproductos modeloProductos;
+	TablaProductos modeloTabla;
 	DialogoAgregar vistaAgregar;
 	PanelProductos vista;
 
-	public Cproductos(Mproductos modelo, DialogoAgregar vistaAgregar, PanelProductos vista) {
-		super();
-		this.modelo = modelo;
-		this.vistaAgregar = vistaAgregar;
-		this.vista = vista;
+	public Cproductos(TablaProductos tablaProductos, DialogoAgregar dialogo, PanelProductos panel) {
+		this.modeloTabla = tablaProductos;
+		this.vistaAgregar = dialogo;
+		this.vista = panel;
+
+		modeloProductos = new Mproductos();
 
 		vistaAgregar.getBaceptar().addActionListener(this);
-		modelo.getModeloTabla();
+		vistaAgregar.getBcancelar().addActionListener(this);
+		vista.getBagregar().addActionListener(this);
 
-		vista.getBagregar().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				vistaAgregar.setVisible(true);
-			}
-		});
+		modeloTabla.getModelo();
 
+		cargarComboBoxes();
+	}
+
+	// NUEVO MÉTODO: Centraliza la lógica de carga de ComboBox para las dos vistas.
+	private void cargarComboBoxes() {
+		List<Categoria> categorias = modeloProductos.getCategoria();
+		List<Proveedor> proveedores = modeloProductos.getProveedor();
+
+		// 1. Recargar ComboBox de PanelProductos (vista principal)
+		ModeloCombobox.cargarComboBox(vista.getCcatergoria(), categorias);
+		ModeloCombobox.cargarComboBox(vista.getCproveedor(), proveedores);
+
+		// 2. Recargar ComboBox de DialogoAgregar (el diálogo)
+		ModeloCombobox.cargarComboBox(vistaAgregar.getCcatgoria(), categorias);
+		ModeloCombobox.cargarComboBox(vistaAgregar.getCproveedor(), proveedores);
 	}
 
 	public void limpiarCampos() {
@@ -39,59 +55,80 @@ public class Cproductos implements ActionListener {
 		vistaAgregar.setTpventa("");
 		vistaAgregar.setTstook("");
 		vistaAgregar.setTxtAlertaDeStook("");
-
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+
+		System.out.println("DEBUG: Evento recibido en Cproductos. Fuente: " + e.getSource().getClass().getSimpleName());
+
+		if (e.getSource() == vista.getBagregar()) {
+			System.out.println("INFO: Botón Agregar presionado. Abriendo diálogo.");
+
+			cargarComboBoxes();
+			vistaAgregar.setVisible(true);
+		}
+
 		if (e.getSource() == vistaAgregar.getBaceptar()) {
+			System.out.println("INFO: Botón Aceptar presionado. Guardando producto.");
+			try {
+				int id = Integer.parseInt(vistaAgregar.getTid().getText());
+				String nombre = vistaAgregar.getTnombre().getText();
+				double precioC = Double.parseDouble(vistaAgregar.getTpcompra().getText());
+				double precioV = Double.parseDouble(vistaAgregar.getTpventa().getText());
+				int stock = Integer.parseInt(vistaAgregar.getTstook().getText());
+				int alerta = Integer.parseInt(vistaAgregar.getTxtAlertaDeStook().getText());
 
-			String catselect = (String) vistaAgregar.getCcatgoria().getSelectedItem();
-			String proveeSelect = (String) vistaAgregar.getCproveedor().getSelectedItem();
+				Object catItem = vistaAgregar.getCcatgoria().getSelectedItem();
+				Object provItem = vistaAgregar.getCproveedor().getSelectedItem();
 
-			DefaultComboBoxModel modeloCat = modelo.getModeloCategoria();
-			DefaultComboBoxModel modeloProvee = modelo.getProvee();
+				Categoria cat;
+				Proveedor prov;
 
-			boolean Existe = false;
-			// para categorias
-			for (int i = 0; i < modeloCat.getSize(); i++) {
-				if (((String) modeloCat.getElementAt(i)).equalsIgnoreCase(catselect)) {
-					Existe = true;
-					break;
+				if (catItem instanceof String) {
+
+					int nuevoIdCat = modeloProductos.getCategoria().size() + 100;
+					cat = new Categoria(nuevoIdCat, (String) catItem);
+					modeloProductos.agregarCategoria(cat); // GUARDAR CENTRALMENTE
+				} else if (catItem instanceof Categoria) {
+					cat = (Categoria) catItem;
+				} else {
+					throw new IllegalArgumentException("Selección de Categoría no válida.");
 				}
-			}
-			// para aaproveedor
-			for (int i = 0; i < modeloProvee.getSize(); i++) {
-				if (((String) modeloProvee.getElementAt(i)).equalsIgnoreCase(proveeSelect)) {
-					Existe = true;
-					break;
+
+				if (provItem instanceof String) {
+					// Si es String, el usuario escribió una nueva entrada.
+					int nuevoNitProv = modeloProductos.getProveedor().size() + 200;
+					prov = new Proveedor(nuevoNitProv, (String) provItem);
+					modeloProductos.agregarProveedor(prov); // GUARDAR CENTRALMENTE
+				} else if (provItem instanceof Proveedor) {
+					prov = (Proveedor) provItem;
+				} else {
+					throw new IllegalArgumentException("Selección de Proveedor no válida.");
 				}
+
+				cargarComboBoxes();
+
+				Mproductos prod = new Mproductos(id, nombre, List.of(cat), List.of(prov), precioC, precioV, stock,
+						alerta);
+				this.modeloTabla.agregarProducto("sin-imagen.png", prod);
+
+				limpiarCampos();
+				vistaAgregar.dispose();
+
+			} catch (NumberFormatException error) {
+				System.err.println("ERROR: Campos de ID, Stock o Precios no contienen números válidos.");
+			} catch (IllegalArgumentException error) {
+				System.err.println("ERROR: " + error.getMessage());
+			} catch (Exception error) {
+				System.err.println("ERROR desconocido al guardar: " + error.getMessage());
 			}
+		}
 
-			if (!Existe && catselect != null && !catselect.trim().isEmpty()) {
-
-				modelo.AgregarCategoria(catselect);
-
-			}
-
-			if (!Existe && proveeSelect != null && !proveeSelect.trim().isEmpty()) {
-
-				modelo.AgregarProveedor(proveeSelect);
-				;
-
-			}
-		
-			vista.getTablaInvenario().setModel(modelo.getModeloTabla());
-			modelo.Agregar("imaegen", Integer.parseInt(vistaAgregar.getTid().getText()), catselect,
-					vistaAgregar.getTnombre().getText(), Double.parseDouble(vistaAgregar.getTpcompra().getText()),
-					Double.parseDouble(vistaAgregar.getTpventa().getText()),
-					Integer.parseInt(vistaAgregar.getTstook().getText()));
+		if (e.getSource() == vistaAgregar.getBcancelar()) {
+			System.out.println("INFO: Botón Cancelar presionado. Cerrando diálogo.");
 			limpiarCampos();
-			vistaAgregar.dispose();
-
-		} else if (e.getSource() == vistaAgregar.getBcancelar()) {
 			vistaAgregar.dispose();
 		}
 	}
-
 }
