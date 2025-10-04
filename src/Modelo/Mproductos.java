@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Mproductos {
-	private int id;
+	private String id;
 	private String nombre;
 	private List<Categoria> categoria;
 	private List<Proveedor> proveedor;
@@ -22,8 +22,8 @@ public class Mproductos {
 			todasCategorias.add(new Categoria(2, "Ropa"));
 		}
 		if (todosProveedores.isEmpty()) {
-			todosProveedores.add(new Proveedor(101, "Proveedor A"));
-			todosProveedores.add(new Proveedor(102, "Proveedor B"));
+			todosProveedores.add(new Proveedor(500, "Proveedor A"));
+			todosProveedores.add(new Proveedor(502, "Proveedor B"));
 		}
 	}
 
@@ -33,8 +33,8 @@ public class Mproductos {
 		this.proveedor = new ArrayList<>();
 	}
 
-	public Mproductos(int id, String nombre, List<Categoria> categoria, List<Proveedor> proveedor, double precioCompra,
-			double precioVenta, int stock, int alertaStock) {
+	public Mproductos(String id, String nombre, List<Categoria> categoria, List<Proveedor> proveedor,
+			double precioCompra, double precioVenta, int stock, int alertaStock) {
 		this.id = id;
 		this.nombre = nombre;
 		this.categoria = categoria;
@@ -45,18 +45,10 @@ public class Mproductos {
 		this.alertaStock = alertaStock;
 	}
 
-	/**
-	 * Obtiene la lista de Categoría asignada específicamente a esta instancia de
-	 * producto.
-	 */
 	public List<Categoria> getCategoriaDeProducto() {
 		return this.categoria;
 	}
 
-	/**
-	 * Obtiene la lista de Proveedor asignada específicamente a esta instancia de
-	 * producto.
-	 */
 	public List<Proveedor> getProveedorDeProducto() {
 		return this.proveedor;
 	}
@@ -82,11 +74,11 @@ public class Mproductos {
 		}
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

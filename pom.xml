@@ -8,7 +8,6 @@
   <artifactId>POS</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
-  <!-- Propiedades para compilar con Java 20 -->
   <properties>
     <maven.compiler.release>20</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,7 +16,6 @@
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
-      <!-- Plugin del compilador -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -28,5 +26,16 @@
       </plugin>
     </plugins>
   </build>
+  
+  <dependencies>
+    <dependency>
+        <groupId>com.microsoft.sqlserver</groupId>
+        <artifactId>mssql-jdbc</artifactId>
+        <version>12.6.1.jre11</version> 
+    </dependency>
+    
+
+    
+  </dependencies>
 
 </project>

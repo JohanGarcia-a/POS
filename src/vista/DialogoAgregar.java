@@ -128,6 +128,7 @@ public class DialogoAgregar extends JDialog {
 		panelEditarProducto.add(Lid, gbc_Lid);
 
 		Tid = new JTextField();
+		Tid.setEditable(true);
 		GridBagConstraints gbc_tid = new GridBagConstraints();
 		gbc_tid.insets = new Insets(0, 0, 5, 5);
 		gbc_tid.fill = GridBagConstraints.HORIZONTAL;

@@ -19,7 +19,7 @@ public class ModeloCombobox {
         // Asignar el modelo al JComboBox
         comboBox.setModel(model);
         
-        // Opcional: Deseleccionar todo (si quieres que el usuario elija explícitamente)
+        //(si quieres que el usuario elija explícitamente)
         if (model.getSize() > 0) {
             comboBox.setSelectedIndex(-1);
         }
